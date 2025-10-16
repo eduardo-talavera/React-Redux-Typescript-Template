@@ -10,7 +10,9 @@ export default function Router() {
         <Routes>
           <Route element={<AppLayout />}>
             <Route path='/' element={<HomeView />} index />
-            <Route path='/id' element={<DetailView />} />
+            <Route path='/link-1' element={<h1>link 1</h1>} />
+            <Route path='/link-2' element={<h1>link 2</h1>} />
+            <Route path='/:id' element={<DetailView />} />
           </Route>
 
           <Route path='/404' element={<PageNotFound />} />
