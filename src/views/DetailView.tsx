@@ -2,7 +2,8 @@ import { getTodosById } from "@/api/todosApi";
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { toast } from "react-toastify";
-import type { Todo } from "store/todos/todos";
+import type { Todo } from "@/types/index";
+
 
 export const DetailView = () => {
   const { id } = useParams()

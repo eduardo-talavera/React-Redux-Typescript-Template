@@ -1,0 +1,54 @@
+import { useState, type ChangeEvent, type FormEvent } from 'react';
+import { useDispatch } from 'react-redux';
+import { addTodo } from '@/store/todos/todos';
+import type { AppDispatch } from '@/store/index';
+import type { Todo } from '@/types/index';
+
+export const TodoForm = () => {
+  const [todo, setTodo] = useState<Omit<Todo, 'id' | 'completed'>>({
+    title: '',
+    description: ''
+  });
+  const dispatch = useDispatch<AppDispatch>();
+
+  const handleChange = ({ target: { name, value } }: ChangeEvent<HTMLInputElement>) => {
+    setTodo({ ...todo, [name]:value })
+  }
+
+  const handleSubmit = (e: FormEvent) => {
+    e.preventDefault();
+    if (!todo.title.trim() || !todo.description.trim()) 
+        return alert('Titulo y descripción son obligatorios');
+    dispatch(addTodo(todo));
+    setTodo({
+      title: '',
+      description: ''
+    });
+  };
+
+  return (
+    <form onSubmit={handleSubmit} className="flex flex-col md:flex-row gap-2 mb-4">
+      <input
+        type="text"
+        value={todo.title}
+        name="title"
+        onChange={handleChange}
+        className="border  px-2 py-1 rounded"
+        placeholder="Titulo..."
+      />
+
+      <input
+        type="text"
+        value={todo.description}
+        name="description"
+        onChange={handleChange}
+        className="border px-2 py-1 rounded"
+        placeholder="Descripción..."
+      />
+
+      <button type="submit" className="bg-blue-600 text-white px-3 py-1 rounded cursor-pointer">
+        Agregar
+      </button>
+    </form>
+  );
+};
