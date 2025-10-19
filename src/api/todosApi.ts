@@ -1,10 +1,11 @@
 import { isAxiosError } from 'axios'
 import api from '@/lib/axios'
+import type { Todo } from '../types'
 
 
 export async function getTodos() {   
     try {
-        const { data } = await api.get('/todos')
+        const { data } = await api.get<Todo[]>('/todos')
         return data
     } catch (error) {
         if (isAxiosError(error) && error.response) {
@@ -13,10 +14,10 @@ export async function getTodos() {
     }
 }
 
-export async function getTodosById(todoId: string) {   
+export async function getTodoById(todoId: string) {   
     try {
         const url = `/todos/${todoId}`
-        const { data } = await api.get(url)
+        const { data } = await api.get<Todo>(url)
         return data
     } catch (error) {
         if (isAxiosError(error) && error.response) {

@@ -3,6 +3,7 @@ import { useDispatch } from 'react-redux';
 import { addTodo } from '@/store/todos/todos';
 import type { AppDispatch } from '@/store/index';
 import type { Todo } from '@/types/index';
+import { toast } from 'react-toastify';
 
 export const TodoForm = () => {
   const [todo, setTodo] = useState<Omit<Todo, 'id' | 'completed'>>({
@@ -18,7 +19,8 @@ export const TodoForm = () => {
   const handleSubmit = (e: FormEvent) => {
     e.preventDefault();
     if (!todo.title.trim() || !todo.description.trim()) 
-        return alert('Titulo y descripción son obligatorios');
+      return toast.error('El titulo y la descripción son obligatorios');
+    
     dispatch(addTodo(todo));
     setTodo({
       title: '',
@@ -27,14 +29,14 @@ export const TodoForm = () => {
   };
 
   return (
-    <form onSubmit={handleSubmit} className="flex flex-col md:flex-row gap-2 mb-4">
+    <form onSubmit={handleSubmit} className="flex flex-col md:flex-row gap-2 mb-20">
       <input
         type="text"
         value={todo.title}
         name="title"
         onChange={handleChange}
-        className="border  px-2 py-1 rounded"
-        placeholder="Titulo..."
+        className="border border-slate-300 px-2 py-1 rounded"
+        placeholder="Titulo de la tarea..."
       />
 
       <input
@@ -42,8 +44,8 @@ export const TodoForm = () => {
         value={todo.description}
         name="description"
         onChange={handleChange}
-        className="border px-2 py-1 rounded"
-        placeholder="Descripción..."
+        className="border border-slate-300 px-2 py-1 rounded"
+        placeholder="Descripción de la tarea..."
       />
 
       <button type="submit" className="bg-blue-600 text-white px-3 py-1 rounded cursor-pointer">

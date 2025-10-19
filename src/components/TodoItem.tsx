@@ -1,7 +1,8 @@
-import { useDispatch } from 'react-redux';
-import { deleteTodo, toggleTodo } from '@/store/todos/todos';
-import type { Todo } from '@/types/index';
-import type { AppDispatch } from '@/store/index';
+import { useDispatch } from "react-redux";
+import { deleteTodo, toggleTodo } from "@/store/todos/todos";
+import type { Todo } from "@/types/index";
+import type { AppDispatch } from "@/store/index";
+import { useNavigate } from "react-router-dom";
 
 interface Props {
   todo: Todo;
@@ -9,21 +10,32 @@ interface Props {
 
 export const TodoItem = ({ todo }: Props) => {
   const dispatch = useDispatch<AppDispatch>();
+  const navigate = useNavigate();
 
   return (
-    <li className="flex justify-between items-center border-b py-2">
+    <li className="bg-white p-5 rounded shadow-md">
       <span
-        onClick={() => dispatch(toggleTodo(todo.id))}
-        className={`cursor-pointer ${todo.completed ? 'line-through text-gray-400' : ''}`}
+        className={`mr-5 cursor-pointer ${
+          todo.completed ? "line-through text-gray-400" : ""
+        }`}
+        onClick={() => navigate(`/${todo.id}`)}
       >
         {todo.title}
       </span>
-      <button
-        onClick={() => dispatch(deleteTodo(todo.id))}
-        className="text-red-500 hover:text-red-700 cursor-pointer"
-      >
-        ✕
-      </button>
+      <div className="mt-5">
+        <button
+          className="cursor-pointer text-slate-500"
+          onClick={() => dispatch(toggleTodo(todo.id))}
+        >
+          {todo.completed ? "Desmarcar" : "Completar"}
+        </button>
+        <button
+          onClick={() => dispatch(deleteTodo(todo.id))}
+          className="text-red-500 hover:text-red-700 cursor-pointer ml-5"
+        >
+          Eliminar
+        </button>
+      </div>
     </li>
   );
 };
